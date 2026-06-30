@@ -1,53 +1,66 @@
-// App.js
 import React, { useState } from "react";
-import { View, Text, FlatList, StyleSheet, SafeAreaView, Pressable } from "react-native";
-import { INITIAL_ALBUMS } from "./src/data/albumsData";
+import { View, Text, FlatList, StyleSheet, SafeAreaView, Pressable, Image } from "react-native";
+import { DATA_ALBUMS } from "./src/data/albumsData";
 import DetailScreen from "./src/components/DetailScreen";
+import FavoritesScreen from "./src/components/FavoritesScreen";
 
 export default function App() {
-  const [albums, setAlbums] = useState(INITIAL_ALBUMS);
-  const [currentScreen, setCurrentScreen] = useState("home"); 
-  const [selectedAlbumId, setSelectedAlbumId] = useState(null);
-  const [tempReview, setTempReview] = useState("");
+  const [albums, setAlbums] = useState(DATA_ALBUMS);
+  const [pantallaActual, setPantallaActual] = useState("home");
+  const [albumSeleccionadoId, setAlbumSeleccionadoId] = useState(null);
+  const [resenaTemporal, setResenaTemporal] = useState("");
 
   const toggleLike = (id) => {
-    setAlbums((current) => current.map((a) => a.id === id ? { ...a, liked: !a.liked, disliked: false } : a));
+    setAlbums((actual) => actual.map((a) => a.id === id ? { ...a, like: !a.like, dislike: false } : a));
   };
 
   const toggleDislike = (id) => {
-    setAlbums((current) => current.map((a) => a.id === id ? { ...a, disliked: !a.disliked, liked: false } : a));
+    setAlbums((actual) => actual.map((a) => a.id === id ? { ...a, dislike: !a.dislike, like: false } : a));
   };
 
-  const toggleFavorite = (id) => {
-    setAlbums((current) => current.map((a) => a.id === id ? { ...a, isFavorite: !a.isFavorite } : a));
+  const toggleFavorito = (id) => {
+    setAlbums((actual) => actual.map((a) => a.id === id ? { ...a, esFavorito: !a.esFavorito } : a));
   };
 
-  const saveReview = (id) => {
-    setAlbums((current) => current.map((a) => a.id === id ? { ...a, review: tempReview } : a));
+  const guardarResena = (id) => {
+    setAlbums((actual) => actual.map((a) => a.id === id ? { ...a, review: resenaTemporal } : a));
   };
 
-  const selectedAlbum = albums.find((a) => a.id === selectedAlbumId);
-  const totalFavorites = albums.filter((a) => a.isFavorite).length;
-  const totalReviews = albums.filter((a) => a.review.trim() !== "").length;
+  const puntuarCancion = (albumId, indiceTrack, puntuacion) => {
+    setAlbums((actual) =>
+      actual.map((album) => {
+        if (album.id === albumId) {
+          const tracksActualizados = [...album.tracks];
+          tracksActualizados[indiceTrack] = { ...tracksActualizados[indiceTrack], rating: puntuacion };
+          return { ...album, tracks: tracksActualizados };
+        }
+        return album;
+      })
+    );
+  };
+
+  const albumSeleccionado = albums.find((a) => a.id === albumSeleccionadoId);
+  const totalFavoritos = albums.filter((a) => a.esFavorito).length;
+  const totalResenas = albums.filter((a) => a.review.trim() !== "").length;
 
   function renderAlbumCard({ item }) {
     return (
       <Pressable
         style={styles.card}
         onPress={() => {
-          setSelectedAlbumId(item.id);
-          setTempReview(item.review);
-          setCurrentScreen("detail");
+          setAlbumSeleccionadoId(item.id);
+          setResenaTemporal(item.review);
+          setPantallaActual("detail");
         }}
       >
         <View style={styles.albumInfo}>
-          <Text style={styles.albumEmoji}>{item.emoji}</Text>
-          <View>
-            <Text style={styles.albumTitle}>{item.title}</Text>
-            <Text style={styles.albumArtist}>{item.artist} ({item.year})</Text>
+          <Image source={item.cover} style={styles.albumListCover} />
+          <View style={{ flex: 1 }}>
+            <Text style={styles.albumTitle}>{item.titulo}</Text>
+            <Text style={styles.albumArtist}>{item.artista} ({item.año})</Text>
             <Text style={styles.statusBadge}>
-              {item.isFavorite ? "⭐ Favorito " : ""}
-              {item.review ? "📝 Con Reseña" : ""}
+              {item.esFavorito ? "Favorito " : ""}
+              {item.review ? "Con Reseña" : ""}
             </Text>
           </View>
         </View>
@@ -61,23 +74,16 @@ export default function App() {
         <View style={styles.phoneFrame}>
           <View style={styles.phoneTop} />
           <View style={styles.phoneScreen}>
-            
-            {currentScreen === "home" && (
+
+
+            {pantallaActual === "home" && (
+
               <View style={{ flex: 1 }}>
-                <Text style={styles.title}>🎵 PopBoxd</Text>
+                
+                <Text style={styles.title}>PopBoxd</Text>
                 <Text style={styles.subtitle}>Tu registro de música pop</Text>
 
-                <View style={styles.counterBox}>
-                  <View style={styles.counterItem}>
-                    <Text style={styles.counterNumber}>{totalFavorites}</Text>
-                    <Text style={styles.counterLabel}>Favoritos</Text>
-                  </View>
-                  <View style={styles.counterDivider} />
-                  <View style={styles.counterItem}>
-                    <Text style={styles.counterNumber}>{totalReviews}</Text>
-                    <Text style={styles.counterLabel}>Reseñas</Text>
-                  </View>
-                </View>
+
 
                 <FlatList
                   data={albums}
@@ -87,43 +93,41 @@ export default function App() {
                   contentContainerStyle={styles.listContent}
                 />
 
-                <Pressable style={styles.navTabButton} onPress={() => setCurrentScreen("favorites")}>
-                  <Text style={styles.navButtonText}>Ver Mis Favoritos ⭐</Text>
+                <Pressable style={styles.navTabButton} onPress={() => setPantallaActual("favorites")}>
+                  <Text style={styles.navButtonText}>Ver Mis Favoritos</Text>
                 </Pressable>
               </View>
             )}
 
-            {currentScreen === "detail" && selectedAlbum && (
-              <DetailScreen 
-                selectedAlbum={selectedAlbum}
-                onBack={() => setCurrentScreen("home")}
+
+            {pantallaActual === "detail" && albumSeleccionado && (
+              <DetailScreen
+                albumSeleccionado={albumSeleccionado}
+                onVolver={() => setPantallaActual("home")}
                 onLike={toggleLike}
                 onDislike={toggleDislike}
-                onFavorite={toggleFavorite}
-                tempReview={tempReview}
-                setTempReview={setTempReview}
-                onSaveReview={saveReview}
+                onFavorito={toggleFavorito}
+                onPuntuarCancion={puntuarCancion}
+                resenaTemporal={resenaTemporal}
+                setResenaTemporal={setResenaTemporal}
+                onGuardarResena={guardarResena}
                 styles={styles}
               />
             )}
 
-            {currentScreen === "favorites" && (
-              <View style={{ flex: 1 }}>
-                <Pressable style={styles.backButton} onPress={() => setCurrentScreen("home")}>
-                  <Text style={styles.backButtonText}>← Volver al Catálogo</Text>
-                </Pressable>
-                <Text style={styles.title}>⭐ Mis Favoritos</Text>
-                <FlatList
-                  data={albums.filter((a) => a.isFavorite)}
-                  keyExtractor={(item) => item.id}
-                  renderItem={renderAlbumCard}
-                  showsVerticalScrollIndicator={false}
-                  contentContainerStyle={styles.listContent}
-                  ListEmptyComponent={
-                    <Text style={styles.emptyText}>No has agregado ningún favorito aún.</Text>
-                  }
-                />
-              </View>
+
+            {pantallaActual === "favorites" && (
+              <FavoritesScreen
+                albums={albums}
+                onVolver={() => setPantallaActual("home")}
+                onSeleccionarAlbum={(id) => {
+                  const album = albums.find((a) => a.id === id);
+                  setAlbumSeleccionadoId(id);
+                  setResenaTemporal(album.review);
+                  setPantallaActual("detail");
+                }}
+                styles={styles}
+              />
             )}
 
           </View>
@@ -134,7 +138,6 @@ export default function App() {
   );
 }
 
-// Estilos (Igual al bloque que ya manejas)
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: "#000000" },
   outerContainer: { flex: 1, alignItems: "center", justifyContent: "center", padding: 16 },
@@ -151,15 +154,17 @@ const styles = StyleSheet.create({
   listContent: { paddingBottom: 10 },
   card: { backgroundColor: "#0f172a", borderRadius: 16, padding: 14, marginBottom: 12, borderWidth: 1, borderColor: "#1e293b" },
   albumInfo: { flexDirection: "row", alignItems: "center" },
-  albumEmoji: { fontSize: 30, marginRight: 14 },
+  albumListCover: { width: 55, height: 55, borderRadius: 8, marginRight: 14 },
   albumTitle: { fontSize: 18, fontWeight: "bold", color: "#f8fafc" },
   albumArtist: { color: "#94a3b8", fontSize: 13, marginTop: 2 },
   statusBadge: { fontSize: 11, color: "#38bdf8", marginTop: 4, fontWeight: "600" },
   backButton: { marginBottom: 16, alignSelf: "flex-start" },
   backButtonText: { color: "#38bdf8", fontSize: 14, fontWeight: "600" },
-  detailEmoji: { fontSize: 64, textAlign: "center", marginBottom: 10 },
+  detailCover: { width: 140, height: 140, borderRadius: 12, alignSelf: "center", marginBottom: 14 },
   detailTitle: { fontSize: 24, fontWeight: "bold", color: "#f8fafc", textAlign: "center" },
-  detailArtist: { fontSize: 14, color: "#64748b", textAlign: "center", marginBottom: 16 },
+  detailArtist: { fontSize: 14, color: "#64748b", textAlign: "center", marginBottom: 12 },
+  averageContainer: { backgroundColor: "#0f172a", padding: 8, borderRadius: 8, alignSelf: "center", marginBottom: 16, borderWidth: 1, borderColor: "#1e293b" },
+  averageText: { color: "#eab308", fontWeight: "bold", fontSize: 14 },
   buttonsContainer: { flexDirection: "row", gap: 8, marginBottom: 16 },
   button: { flex: 1, paddingVertical: 10, borderRadius: 10, alignItems: "center", backgroundColor: "#1e293b" },
   likeButton: { borderColor: "#22c55e", borderWidth: 1 },
@@ -167,9 +172,12 @@ const styles = StyleSheet.create({
   favButton: { borderColor: "#eab308", borderWidth: 1 },
   activeButton: { backgroundColor: "#334155" },
   activeFavButton: { backgroundColor: "#eab308" },
-  buttonText: { color: "white", fontWeight: "bold", fontSize: 12 },
+  buttonText: { color: "white", fontWeight: "bold", fontSize: 11 },
   sectionTitle: { fontSize: 16, fontWeight: "bold", color: "#f8fafc", marginTop: 14, marginBottom: 8 },
-  trackText: { color: "#94a3b8", fontSize: 14, marginVertical: 4 },
+  trackRatingRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingVertical: 6, borderBottomWidth: 1, borderBottomColor: "#1e293b" },
+  trackText: { color: "#94a3b8", fontSize: 14, flex: 1, marginRight: 8 },
+  starsContainer: { flexDirection: "row", gap: 2 },
+  starIcon: { fontSize: 18, color: "#eab308" },
   input: { backgroundColor: "#0f172a", color: "#f8fafc", borderRadius: 10, padding: 10, height: 80, textAlignVertical: "top", borderColor: "#1e293b", borderWidth: 1, marginTop: 6 },
   saveButton: { backgroundColor: "#38bdf8", paddingVertical: 10, borderRadius: 10, alignItems: "center", marginTop: 10, marginBottom: 20 },
   saveButtonText: { color: "#020617", fontWeight: "bold" },
