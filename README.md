@@ -25,3 +25,6 @@ Correr el Proyecto:
 1) npm run web 
 2) Escanear el código QR
 2) Presionar -W- para abrir el proyecto en un servidor local
+
+Enlace a Figma:
+https://www.figma.com/site/6RJNyWDrYstoCPMflevIWH/PopBoxd?node-id=0-1&t=8zYhma3ghyYhdr8u-1
