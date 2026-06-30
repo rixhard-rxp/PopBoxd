@@ -141,7 +141,7 @@ export default function App() {
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: "#000000" },
   outerContainer: { flex: 1, alignItems: "center", justifyContent: "center", padding: 16 },
-  phoneFrame: { width: 360, height: 700, borderRadius: 56, backgroundColor: "#0f172a", padding: 14 },
+  phoneFrame: { width: 360, height: 700, borderRadius: 56, backgroundColor: "#001b51", padding: 14 },
   phoneTop: { width: 120, height: 6, backgroundColor: "#334155", borderRadius: 999, alignSelf: "center", marginBottom: 14 },
   phoneScreen: { flex: 1, borderRadius: 40, backgroundColor: "#020617", padding: 20 },
   title: { fontSize: 28, fontWeight: "800", color: "#f8fafc", textAlign: "center", marginBottom: 4 },
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   starsContainer: { flexDirection: "row", gap: 2 },
   starIcon: { fontSize: 18, color: "#eab308" },
   input: { backgroundColor: "#0f172a", color: "#f8fafc", borderRadius: 10, padding: 10, height: 80, textAlignVertical: "top", borderColor: "#1e293b", borderWidth: 1, marginTop: 6 },
-  saveButton: { backgroundColor: "#38bdf8", paddingVertical: 10, borderRadius: 10, alignItems: "center", marginTop: 10, marginBottom: 20 },
+  saveButton: { backgroundColor: "#989ca3", paddingVertical: 10, borderRadius: 10, alignItems: "center", marginTop: 10, marginBottom: 20 },
   saveButtonText: { color: "#020617", fontWeight: "bold" },
   navTabButton: { backgroundColor: "#1e293b", paddingVertical: 12, borderRadius: 12, alignItems: "center", marginTop: 10 },
   navButtonText: { color: "#f8fafc", fontWeight: "600" },
