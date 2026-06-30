@@ -1,29 +1,83 @@
-export const ALBUMS_DATA = [
-  {
-    id: '1',
-    title: 'BRAT',
-    artist: 'Charli XCX',
-    year: '2024',
-    cover: require('../../assets/brat.jpg'), // Ruta relativa hacia tu carpeta assets
-    color: '#8ACE00',
-    tracks: ['360', 'Club classics', 'Sympathy is a knife', 'Von dutch', 'Everything is romantic']
-  },
-  {
-    id: '2',
-    title: 'MOTOMAMI',
-    artist: 'Rosalía',
-    year: '2022',
-    cover: require('../../assets/motomami.jpg'),
-    color: '#FF0000',
-    tracks: ['SAOKO', 'CANDY', 'LA FAMA', 'BULERÍAS', 'CHICKEN TERIYAKI']
-  },
-  {
-    id: '3',
-    title: 'Heaven Knows',
-    artist: 'PinkPantheress',
-    year: '2023',
-    cover: require('../../assets/heaven.jpg'),
-    color: '#E6C5E3',
-    tracks: ['Another life', 'True romance', 'Mosquito', 'The layton', 'Caprice']
-  }
-];
+export const DATA_ALBUMS = [
+    {
+        id: "1",
+        titulo: "BRAT",
+        artista: "Charli XCX",
+        año: "2024",
+        cover: require("../../assets/brat.jpeg"),
+        tracks: [
+            { name: "360", rating: 0 },
+            { name: "Club classics", rating: 0 },
+            { name: "Sympathy is a knife", rating: 0 },
+            { name: "I might say something stupid", rating: 0 },
+            { name: "Talk talk", rating: 0 },
+            { name: "Von dutch", rating: 0 },
+            { name: "Everything is romantic", rating: 0 },
+            { name: "Rewind", rating: 0 },
+            { name: "So I", rating: 0 },
+            { name: "Girl, so confusing", rating: 0 },
+            { name: "Apple", rating: 0 },
+            { name: "B2b", rating: 0 },
+            { name: "Mean girls", rating: 0 },
+            { name: "I think about it all the time", rating: 0 },
+            { name: "365", rating: 0 }
+        ],
+        like: false,
+        dislike: false,
+        esFavorito: false,
+        review: "",
+    },
+    {
+        id: "2",
+        titulo: "Wor$t Girl In America",
+        artista: "Slayyyter",
+        año: "2026",
+        cover: require("../../assets/worst girl in america.jpg"),
+        tracks: [
+            { name: "BEAT UP CHANEL$", rating: 0 },
+            { name: "CANNIBALISM!", rating: 0 },
+            { name: "OLD TECHNOLOGY", rating: 0 },
+            { name: "CRANK", rating: 0 },
+            { name: "GAS STATION", rating: 0 },
+            { name: "YES GODDD", rating: 0 },
+            { name: "UNKNOWN LOVERZ", rating: 0 },
+            { name: "DANCE...", rating: 0 },
+            { name: "OLD FLING$", rating: 0 },
+            { name: "I'M ACTUALLY KINDA FAMOUS", rating: 0 },
+            { name: "$T. LOSER", rating: 0 },
+            { name: "WHAT IS IT LIKE, TO BE LIKED?", rating: 0 },
+            { name: "*PRAYER*", rating: 0 },
+            { name: "BRITTANY MURPHY", rating: 0 }
+        ],
+        like: false,
+        dislike: false,
+        esFavorito: false,
+        review: "",
+    },
+    {
+        id: "3",
+        titulo: "Ray Of Light",
+        artista: "Madonna",
+        año: "2026",
+        cover: require("../../assets/ray of light.jpg"),
+        tracks: [
+            { name: "Drowned World / Substitute for Love", rating: 0 },
+            { name: "Swim", rating: 0 },
+            { name: "Ray of Light", rating: 0 },
+            { name: "Candy Perfume Girl", rating: 0 },
+            { name: "Skin", rating: 0 },
+            { name: "Nothing Really Matters", rating: 0 },
+            { name: "Sky Fits Heaven", rating: 0 },
+            { name: "Shanti / Ashtangi", rating: 0 },
+            { name: "Frozen", rating: 0 },
+            { name: "The Power of Good-Bye", rating: 0 },
+            { name: "To Have and Not to Hold", rating: 0 },
+            { name: "Little Star", rating: 0 },
+            { name: "Mer Girl", rating: 0 }
+        ],
+        like: false,
+        dislike: false,
+        esFavorito: false,
+        review: "",
+    },
+]
